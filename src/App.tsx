@@ -1,8 +1,9 @@
 import { Activity, useState } from 'react'
 
-import SelectionCircle from './components/SelectionCircle'
 import iconSun from './assets/icons/icon-sun.svg'
 
+import FilterButton from './components/FilterButton'
+import SelectionCircle from './components/SelectionCircle'
 import ListElement from './components/ListElement'
 
 interface Task {
@@ -11,10 +12,10 @@ interface Task {
   completedStatus: boolean
 }
 
-type FilterType = 'all' | 'actived' | 'completed'
+type FilterType = 'all' | 'active' | 'completed'
 
 export default function App() {
-  const [currentFilter, setCurrentFIlter] = useState<FilterType>('all')
+  const [currentFilter, setCurrentFilter] = useState<FilterType>('all')
   const [taskList, setTaskList] = useState<Task[]>([])
   const [task, setTask] = useState<Task>({
     id: '',
@@ -36,7 +37,7 @@ export default function App() {
 
   const getTasksByFilter = {
     all: () => taskList,
-    actived: () => taskList.filter(e => !e.completedStatus),
+    active: () => taskList.filter(e => !e.completedStatus),
     completed: () => taskList.filter(e => e.completedStatus)
   }
 
@@ -78,7 +79,7 @@ export default function App() {
         <div className="bg-[hsl(235,24%,19%)] rounded-[5px] shadow-list">
           <ul id="todoList" className="list-none">
             {getTasksByFilter[currentFilter]().map(e => (
-              <ListElement key={e.id} id={e.id} changeTaskStatus={() => changeTaskStatus(e.id)} completed={e.completedStatus}>{e.task}</ListElement> //Adicionar select caso esteja concluido e adicionar nas propriedades do input
+              <ListElement key={e.id} id={e.id} changeTaskStatus={() => changeTaskStatus(e.id)} completed={e.completedStatus}>{e.task}</ListElement>
             ))}
           </ul>
 
@@ -86,21 +87,11 @@ export default function App() {
             <p className='text-[hsl(235,16%,43%)] text-[14px] font-semibold font-[500]'><span id="task_counter" className='text-[hsl(235,16%,43%)] text-[14px]'>{taskList.length}</span> items left</p>
 
             <div className="flex justify-around items-center gap-[20px] h-[56px] text-[hsl(233,14%,35%);]">
-              <button className='text-[15px] text-[hsl(235,16%,43%)] hover:text-[hsl(236,33%,92%)] font-[700]'
-                onClick={() => setCurrentFIlter('all')}>
-                All
-              </button>
 
-              <button className='text-[15px] font-[700] text-[hsl(235,16%,43%)] hover:text-[hsl(236,33%,92%)]'
-                id="filter_active_tasks"
-                onClick={() => setCurrentFIlter('actived')}>
-                Active
-              </button>
+              <FilterButton value='all' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>All</FilterButton>
+              <FilterButton value='active' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Active</FilterButton>
+              <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton>
 
-              <button className='text-[15px] font-[700] text-[hsl(235,16%,43%)] hover:text-[hsl(236,33%,92%)]'
-                onClick={() => setCurrentFIlter('completed')}>
-                Completed
-              </button>
             </div>
 
             <button id="clear_completed" className='font-[500]' onClick={removeCompleteTask}>Clear Completed</button>
