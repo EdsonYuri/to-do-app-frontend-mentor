@@ -78,7 +78,7 @@ export default function App() {
         <div className="bg-[hsl(235,24%,19%)] rounded-[5px] shadow-list">
           <ul id="todoList" className="list-none">
             {getTasksByFilter[currentFilter]().map(e => (
-              <ListElement key={e.id} id={e.id} changeTaskStatus={() => changeTaskStatus(e.id)}>{e.task}</ListElement>
+              <ListElement key={e.id} id={e.id} changeTaskStatus={() => changeTaskStatus(e.id)} completed={e.completedStatus}>{e.task}</ListElement> //Adicionar select caso esteja concluido e adicionar nas propriedades do input
             ))}
           </ul>
 

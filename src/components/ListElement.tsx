@@ -4,14 +4,15 @@ import iconCross from '../assets/icons/icon-cross.svg'
 type ListElementProps = {
     children: string,
     id: string,
-    changeTaskStatus: VoidFunction
+    changeTaskStatus: VoidFunction,
+    completed: boolean
 }
 
-export default function ListElement({ children, id, changeTaskStatus }: ListElementProps) {
+export default function ListElement({ children, id, changeTaskStatus, completed }: ListElementProps) {
     return (
         <li className='flex items-center justify-between h-[65px] border-b border-[hsl(237,14%,26%)] px-[25px]' >
-            <input type="checkbox" id={id} className='hidden' />
-            <label htmlFor={id} className='flex items-center' onClick={changeTaskStatus}>
+            <input type="checkbox" id={id} className='hidden' onChange={changeTaskStatus} checked={completed}/>
+            <label htmlFor={id} className='flex items-center'>
                 <SelectionCircle />
                 <span className='text-[18px] cursor-pointer'>{children}</span>
             </label>
