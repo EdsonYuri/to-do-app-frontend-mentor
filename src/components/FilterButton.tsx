@@ -9,7 +9,7 @@ type FilterButtonProps = {
 
 export default function FilterButton({ children, value, currentFilter, setCurrentFilter }: FilterButtonProps) {
     return (
-        <button className={`text-[15px] font-[700]  hover:text-[hsl(236,33%,92%)]
+        <button className={`text-[12px] sm:text-[15px] font-bold  hover:text-[hsl(236,33%,92%)]
             ${value === currentFilter
                 ? 'text-[hsl(220,98%,61%)]'
                 : 'text-[hsl(235,16%,43%)]'

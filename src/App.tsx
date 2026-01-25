@@ -55,19 +55,19 @@ export default function App() {
   const clearInput = () => setTask({ id: '', task: '', completedStatus: false })
 
   return (
-    <div className="flex flex-col">
-      <header className=' justify-between flex w-[100%] items-center mt-[8.5vh] mb-[5.7vh]' >
-        <h1 className='text-[2.6rem] tracking-[0.15em]'>TODO</h1>
+    <div className="flex flex-col w-full">
+      <header className='mt-[4.1vh] my-[3.8vh] justify-between flex w-[full] items-center sm:mt-[7vh] sm:mb-[4vh]' >
+        <h1 className='text-[1.5rem] font-semibold sm:text-[2.4rem] tracking-[0.20em] sm:tracking-[0.43em]'>TODO</h1>
         <div className="w-[25px]">
           <img src={iconSun} alt="" />
         </div>
       </header>
 
-      <main>
-        <div className="flex items-center h-[65px] bg-[hsl(235,24%,19%)] rounded-[5px] justify-start px-[25px] mb-[2.5vh] shadow-input border-0">
+      <main className='w-[full]'>
+        <div className="flex items-center h-[50px] sm:h-[65px] bg-[hsl(235,24%,19%)] rounded-[5px] justify-start px-[25px] mb-[2.5vh] shadow-input border-0">
           <SelectionCircle />
 
-          <input className='text-[hsl(234,39%,85%)] text-[18px] h-full bg-transparent outline-none w-full caret-[hsl(220,98%,61%)]'
+          <input className='text-[hsl(234,39%,85%)] text-[12px] sm:text-[18px] h-full bg-transparent outline-none w-full caret-[hsl(220,98%,61%)]'
             name='task'
             onChange={e => handleTask(e)}
             type="text"
@@ -86,23 +86,28 @@ export default function App() {
             ))}
           </ul>
 
-          <div className="flex justify-between items-center px-[28px]">
-            <p className='text-[hsl(235,16%,43%)] text-[14px] font-semibold font-[400]'><span id="task_counter" className='text-[hsl(235,16%,43%)] text-[14px]'>{getTasksByFilter[currentFilter]().length}</span> items left</p>
+          <div className="flex justify-between items-center px-[28px] h-[56px] w-full">
+            <p className=' whitespace-nowrap text-[hsl(235,16%,43%)] text-[14px] font-normal'><span id="task_counter" className='text-[hsl(235,16%,43%)] text-[12px] sm:text-[14px]'>{getTasksByFilter[currentFilter]().length}</span> items left</p>
 
-            <div className="flex justify-around items-center gap-[20px] h-[56px] text-[hsl(233,14%,35%);]">
-
+            <div className="justify-around items-center gap-[20px]  text-[hsl(233,14%,35%)] hidden md:flex">
               <FilterButton value='all' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>All</FilterButton>
               <FilterButton value='active' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Active</FilterButton>
-              <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton>
+              <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton> 
 
             </div>
 
-            <button id="clear_completed" className='font-[400] text-[hsl(235,16%,43%)] text-[14px] hover:text-[hsl(236,33%,92%)]' onClick={removeCompleteTask}>Clear Completed</button>
+            <button id="clear_completed" className='font-normal text-[hsl(235,16%,43%)] text-[12px] sm:text-[14px] hover:text-[hsl(236,33%,92%)] whitespace-nowrap' onClick={removeCompleteTask}>Clear Completed</button>
           </div>
         </div>
 
+        <div className="flex items-center justify-center  gap-[20px] h-[50px] bg-[hsl(235,24%,19%)] rounded-[5px] mt-[2.5vh] shadow-input border-0 md:hidden">
+          <FilterButton value='all' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>All</FilterButton>
+          <FilterButton value='active' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Active</FilterButton>
+          <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton>
+        </div>
+
         <footer className='h-[13vh] flex items-center justify-center'>
-          <p className='text-[hsl(235,16%,43%)] text-[14px] font-semibold font-[400]'>Drag and drop to recorder list</p>
+          <p className='text-[hsl(235,16%,43%)] text-[14px] font-semibold'>Drag and drop to recorder list</p>
         </footer>
       </main>
 

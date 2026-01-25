@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+@import "tailwindcss";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
 
 @layer base {
   * {
@@ -12,9 +10,7 @@
     border: none;
     font-family: "Josefin Sans", sans-serif;
     color: white;
-
-    font-family: "Josefin Sans", sans-serif;
-    font-optical-sizing: auto;
+    /* font-optical-sizing: auto; */
     /* font-weight: <weight>; */
     font-style: normal;
   }
@@ -28,11 +24,12 @@
     background-repeat: no-repeat;
     background-size: contain;
     /* padding: 5.25% 0; */
+    /* @apply px-[25px] */
   }
 
   /* Como o `body` é flex, quem recebe o "tamanho do app" é o `#root` */
   #root {
-    @apply grow-0 shrink-0 basis-[37%];
+    @apply w-full sm:basis-[67%] xl:basis-[37%];
   }
 
   img {
@@ -46,6 +43,28 @@
   }
 }
 
+@media screen and (max-width: 640px) {
+  body {
+    background-image: url('./assets/backgrounds/bg-mobile-dark.jpg');
+    @apply px-[25px] 
+  }
+
+  /* 
+  li img {
+    visibility: visible;
+  }*/
+}
+
+@media screen and (min-width: 1000px) {
+  li img {
+    visibility: hidden;
+  }
+
+  li:hover img {
+    visibility: visible;
+  }
+
+}
 
 @layer components {
   .selectionCircle {
@@ -57,14 +76,12 @@
     position: absolute;
     content: "";
     border: 2px solid #fff;
-    width: 8px;
-    height: 3px;
-    top: 10px;
-    left: 9px;
     border-top: none;
     border-right: none;
     transform: rotate(-45deg);
     opacity: 0;
+
+    @apply top-[6px] left-[6px] sm:top-[10px] sm:left-[8px] w-[9px] h-[5px] sm:w-[10px] sm:h-[5px];
   }
 
   label .selection_circle:hover {
@@ -112,10 +129,6 @@
   }
 
   li img {
-    visibility: hidden;
-  }
-
-  li:hover img {
     visibility: visible;
   }
 
@@ -128,65 +141,3 @@
   --shadow-list: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
   --shadow-input: rgba(0, 0, 0, 0.56) 0px 30px 200px 5px;
 }
-
-
-/* :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
