@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import iconSun from './assets/icons/icon-sun.svg'
+import iconMoon from './assets/icons/icon-moon.svg'
 
 import FilterButton from './components/FilterButton'
 import SelectionCircle from './components/SelectionCircle'
@@ -22,9 +23,17 @@ export default function App() {
     task: '',
     completedStatus: false
   })
+  const [isDarkTheme, setIsDarkTheme] = useState<boolean>(true)
+
+  useEffect(() => {
+    const root = document.documentElement
+
+    root.classList.toggle('dark', isDarkTheme)
+  }, [isDarkTheme])
 
   const addTask = () => {
     if (task.task.trim()) setTaskList(prev => [...prev, { ...task, id: crypto.randomUUID() }])
+    clearInput()
   }
 
   const removeCompleteTask = () => {
@@ -48,26 +57,29 @@ export default function App() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       addTask()
-      clearInput()
     }
+  }
+
+  const toggleTheme = () => {
+    setIsDarkTheme(!isDarkTheme)
   }
 
   const clearInput = () => setTask({ id: '', task: '', completedStatus: false })
 
   return (
-    <div className="flex flex-col w-full">
-      <header className='mt-[4.1vh] my-[3.8vh] justify-between flex w-[full] items-center sm:mt-[7vh] sm:mb-[4vh]' >
+    <div className="flex flex-col w-full ">
+      <header className='mt-[4.1vh] my-[3.8vh] justify-between flex items-center sm:mt-[7vh] sm:mb-[4vh]' >
         <h1 className='text-[1.5rem] font-semibold sm:text-[2.4rem] tracking-[0.20em] sm:tracking-[0.43em]'>TODO</h1>
-        <div className="w-[25px]">
-          <img src={iconSun} alt="" />
-        </div>
+        <button className="w-[25px]" onClick={toggleTheme}>
+          <img src={isDarkTheme ? iconSun : iconMoon} alt="" />
+        </button>
       </header>
 
-      <main className='w-[full]'>
-        <div className="flex items-center h-[50px] sm:h-[65px] bg-[hsl(235,24%,19%)] rounded-[5px] justify-start px-[25px] mb-[2.5vh] shadow-input border-0">
+      <main>
+        <div className="flex items-center h-[50px] sm:h-[65px] bg-[hsl(0,0%,98%)] dark:bg-[hsl(235,24%,19%)] rounded-[5px] justify-start px-[25px] mb-[2.5vh] shadow-input border-0">
           <SelectionCircle />
 
-          <input className='text-[hsl(234,39%,85%)] text-[12px] sm:text-[18px] h-full bg-transparent outline-none w-full caret-[hsl(220,98%,61%)]'
+          <input className='text-[hsl(235,19%,35%)] dark:text-[hsl(234,39%,85%)] text-[12px] sm:text-[18px] h-full bg-transparent outline-none w-full caret-[hsl(220,98%,61%)]'
             name='task'
             onChange={e => handleTask(e)}
             type="text"
@@ -79,7 +91,7 @@ export default function App() {
         </div>
 
 
-        <div className="bg-[hsl(235,24%,19%)] rounded-[5px] shadow-list">
+        <div className="bg-[hsl(0,0%,98%)] dark:bg-[hsl(235,24%,19%)] rounded-[5px] shadow-list">
           <ul id="todoList" className="list-none">
             {getTasksByFilter[currentFilter]().map(e => (
               <ListElement key={e.id} id={e.id} changeTaskStatus={() => changeTaskStatus(e.id)} completed={e.completedStatus} removeTask={removeTask}>{e.task}</ListElement>
@@ -87,20 +99,20 @@ export default function App() {
           </ul>
 
           <div className="flex justify-between items-center px-[28px] h-[56px] w-full">
-            <p className=' whitespace-nowrap text-[hsl(235,16%,43%)] text-[14px] font-normal'><span id="task_counter" className='text-[hsl(235,16%,43%)] text-[12px] sm:text-[14px]'>{getTasksByFilter[currentFilter]().length}</span> items left</p>
+            <p className=' whitespace-nowrap text-[hsl(236,9%,61%)] dark:text-[hsl(235,16%,43%)] text-[14px] font-normal'><span id="task_counter" className='text-[hsl(236,9%,61%)] dark:text-[hsl(235,16%,43%)] text-[12px] sm:text-[14px]'>{getTasksByFilter[currentFilter]().length}</span> items left</p>
 
             <div className="justify-around items-center gap-[20px]  text-[hsl(233,14%,35%)] hidden md:flex">
               <FilterButton value='all' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>All</FilterButton>
               <FilterButton value='active' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Active</FilterButton>
-              <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton> 
+              <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton>
 
             </div>
 
-            <button id="clear_completed" className='font-normal text-[hsl(235,16%,43%)] text-[12px] sm:text-[14px] hover:text-[hsl(236,33%,92%)] whitespace-nowrap' onClick={removeCompleteTask}>Clear Completed</button>
+            <button id="clear_completed" className='font-normal text-[hsl(236,9%,61%)] dark:text-[hsl(235,16%,43%)] text-[12px] sm:text-[14px] dark:hover:text-[hsl(236,33%,92%)] hover:text-[hsl(235,19%,35%)] whitespace-nowrap' onClick={removeCompleteTask}>Clear Completed</button>
           </div>
         </div>
 
-        <div className="flex items-center justify-center  gap-[20px] h-[50px] bg-[hsl(235,24%,19%)] rounded-[5px] mt-[2.5vh] shadow-input border-0 md:hidden">
+        <div className="flex items-center justify-center  gap-[20px] h-[50px] bg-[hsl(0,0%,98%)] dark:bg-[hsl(235,24%,19%)] rounded-[5px] mt-[2.5vh] shadow-input border-0 md:hidden">
           <FilterButton value='all' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>All</FilterButton>
           <FilterButton value='active' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Active</FilterButton>
           <FilterButton value='completed' currentFilter={currentFilter} setCurrentFilter={setCurrentFilter}>Completed</FilterButton>
